@@ -3,6 +3,7 @@ import Link from "next/link";
 export default function Sidebar() {
   const navMenus = [
     { title: "회원가입", linkTo: "/signup" },
+    { title: "본인인증", linkTo: "/auth" },
     { title: "로그인", linkTo: "/signin" },
     { title: "회원정보", linkTo: "/member" },
     { title: "토큰재발급", linkTo: "/token" },
