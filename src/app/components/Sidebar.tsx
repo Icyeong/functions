@@ -7,7 +7,7 @@ export default function Sidebar() {
     { title: "로그인", linkTo: "/signin" },
     { title: "회원정보", linkTo: "/member" },
     { title: "토큰재발급", linkTo: "/token" },
-    { title: "메뉴5", linkTo: "/test5" },
+    { title: "결제", linkTo: "/payment" },
     { title: "메뉴6", linkTo: "/test6" },
   ];
 

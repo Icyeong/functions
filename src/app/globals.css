@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+#iframe {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0vh;
+  left: 0vw;
+  display: none;
+}
+.inicisForm {
+  display: none;
+}
