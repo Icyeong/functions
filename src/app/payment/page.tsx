@@ -24,9 +24,9 @@ export default function page() {
 
       <div className="flex">
         <InicisPayment />
-        <button onClick={inicispay} className="btn btn-primary mx-1">
+        {/* <button onClick={inicispay} className="btn btn-primary mx-1">
           이니시스 결제
-        </button>
+        </button> */}
         <button onClick={naverpay} className="btn btn-primary mx-1">
           네이버페이
         </button>

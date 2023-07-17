@@ -1,9 +1,17 @@
 import { useRef } from "react";
 
 export default function InicisPayment() {
+  const iframeBox = useRef<HTMLDivElement | null>(null);
   const iframe = useRef<HTMLIFrameElement | null>(null);
   const form = useRef<HTMLFormElement>(null as unknown as HTMLFormElement);
+
   const inicisPay = async () => {
+    // iframe 생성
+    iframe.current = document.createElement("iframe");
+    iframe.current.id = "iframe";
+    iframe.current.name = "param";
+    iframeBox.current?.appendChild(iframe.current);
+
     if (form.current && iframe.current) {
       (form.current as HTMLFormElement).action =
         "https://dapi-dev.dominos.co.kr/payment/inicisApprovalPage";
@@ -14,6 +22,7 @@ export default function InicisPayment() {
       console.log("form data : ", res);
     }
   };
+
   window.addEventListener("message", function (event) {
     const message = event.data;
 
@@ -26,7 +35,7 @@ export default function InicisPayment() {
       console.log("결제취소");
     }
     if (form.current && iframe.current) {
-      iframe.current.style.display = "none";
+      iframeBox.current?.removeChild(iframe.current);
     }
   });
 
@@ -168,7 +177,7 @@ export default function InicisPayment() {
           placeholder="상품프로모션"
         />
       </form>
-      <iframe ref={iframe} id="iframe" name="param"></iframe>
+      <div ref={iframeBox} id="iframeBox"></div>
     </>
   );
 }
