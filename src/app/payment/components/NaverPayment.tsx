@@ -1,25 +1,8 @@
 import { naverpay } from "../../lib/payments";
 import { deviceCheck } from "@/app/lib/utils";
 
-export default function NaverPayment({
-  iframeBox,
-  iframe,
-}: {
-  iframeBox: React.MutableRefObject<HTMLDivElement | null>;
-  iframe: React.MutableRefObject<HTMLIFrameElement | null>;
-}) {
+export default function NaverPayment({ iframeBox, iframe }: IframeType) {
   const device = deviceCheck();
-
-  const createIframe = async (url: string) => {
-    // iframe 생성
-    iframe.current = document.createElement("iframe");
-    iframe.current.id = "iframe";
-    iframe.current.name = "param";
-    iframe.current.src = url;
-    iframeBox.current?.appendChild(iframe.current);
-
-    iframe.current.style.display = "block";
-  };
 
   async function startPayment() {
     const res = await naverpay();
@@ -33,7 +16,7 @@ export default function NaverPayment({
     //     url = res.data.next_redirect_pc_url;
     //   }
     //   console.log("url : ", url);
-    //   createIframe(url);
+    // createIframe({ iframeBox, iframe, url });
     // }
   }
 

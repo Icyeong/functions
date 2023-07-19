@@ -1,27 +1,16 @@
+import { createIframe } from "@/app/lib/utils";
 import { useRef } from "react";
 
-export default function InicisPayment({
-  iframeBox,
-  iframe,
-}: {
-  iframeBox: React.MutableRefObject<HTMLDivElement | null>;
-  iframe: React.MutableRefObject<HTMLIFrameElement | null>;
-}) {
+export default function InicisPayment({ iframeBox, iframe }: IframeType) {
   const form = useRef<HTMLFormElement>(null as unknown as HTMLFormElement);
 
   const inicisPay = async () => {
-    // iframe 생성
-    iframe.current = document.createElement("iframe");
-    iframe.current.id = "iframe";
-    iframe.current.name = "param";
-    iframeBox.current?.appendChild(iframe.current);
-
+    createIframe({ iframeBox, iframe });
     if (form.current && iframe.current) {
       (form.current as HTMLFormElement).action =
         "https://dapi-dev.dominos.co.kr/payment/inicisReady";
       (form.current as HTMLFormElement).method = "post";
       const res = await (form.current as HTMLFormElement).submit();
-      iframe.current.style.display = "block";
 
       console.log("form data : ", res);
     }
