@@ -1,8 +1,12 @@
 import { useRef } from "react";
 
-export default function InicisPayment() {
-  const iframeBox = useRef<HTMLDivElement | null>(null);
-  const iframe = useRef<HTMLIFrameElement | null>(null);
+export default function InicisPayment({
+  iframeBox,
+  iframe,
+}: {
+  iframeBox: React.MutableRefObject<HTMLDivElement | null>;
+  iframe: React.MutableRefObject<HTMLIFrameElement | null>;
+}) {
   const form = useRef<HTMLFormElement>(null as unknown as HTMLFormElement);
 
   const inicisPay = async () => {
@@ -14,7 +18,7 @@ export default function InicisPayment() {
 
     if (form.current && iframe.current) {
       (form.current as HTMLFormElement).action =
-        "https://dapi-dev.dominos.co.kr/payment/inicisApprovalPage";
+        "https://dapi-dev.dominos.co.kr/payment/inicisReady";
       (form.current as HTMLFormElement).method = "post";
       const res = await (form.current as HTMLFormElement).submit();
       iframe.current.style.display = "block";
@@ -22,22 +26,6 @@ export default function InicisPayment() {
       console.log("form data : ", res);
     }
   };
-
-  window.addEventListener("message", function (event) {
-    const message = event.data;
-
-    console.log("부모창에서 event : ", event);
-    console.log("전달받은 데이터 : ", message);
-
-    if (message.resultCode === "0000") {
-      console.log("결제성공!");
-    } else if (message.resultCode === "1000") {
-      console.log("결제취소");
-    }
-    if (form.current && iframe.current) {
-      iframeBox.current?.removeChild(iframe.current);
-    }
-  });
 
   return (
     <>
@@ -177,7 +165,6 @@ export default function InicisPayment() {
           placeholder="상품프로모션"
         />
       </form>
-      <div ref={iframeBox} id="iframeBox"></div>
     </>
   );
 }

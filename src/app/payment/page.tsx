@@ -1,10 +1,28 @@
 "use client";
-// import Button from "react-bootstrap/Button";
-import { inicispay, kakaopay, naverpay } from "../lib/payments";
-import Inicis from "./components/InicisNpm";
+import { useRef } from "react";
 import InicisPayment from "./components/InicisPayment";
+import KakaoPayment from "./components/KakaoPayment";
+import NaverPayment from "./components/NaverPayment";
+import PaycoPayment from "./components/PaycoPayment";
 
-export default function page() {
+export default function Page() {
+  const iframeBox = useRef<HTMLDivElement | null>(null);
+  const iframe = useRef<HTMLIFrameElement | null>(null);
+
+  window.addEventListener("message", function (event) {
+    const message = event.data;
+
+    console.log("부모창에서 event : ", event);
+    console.log("전달받은 데이터 : ", message);
+    if (iframe.current && iframeBox.current?.contains(iframe.current)) {
+      iframeBox.current?.removeChild(iframe.current);
+    }
+    if (message.resultCode === "0000") {
+      alert(message.resultMsg);
+    } else if (message.resultCode === "1000") {
+      alert(message.resultMsg);
+    }
+  });
   return (
     <>
       <h1 className="text-xl font-bold">결제</h1>
@@ -23,17 +41,13 @@ export default function page() {
       <h2 className="text-lg font-bold mt-4">테스트 가능</h2>
 
       <div className="flex">
-        <InicisPayment />
-        {/* <button onClick={inicispay} className="btn btn-primary mx-1">
-          이니시스 결제
-        </button> */}
-        <button onClick={naverpay} className="btn btn-primary mx-1">
-          네이버페이
-        </button>
-        <button onClick={kakaopay} className="btn btn-primary mx-1">
-          카카오페이
-        </button>
+        <InicisPayment iframeBox={iframeBox} iframe={iframe} />
+        <NaverPayment iframeBox={iframeBox} iframe={iframe} />
+        <KakaoPayment iframeBox={iframeBox} iframe={iframe} />
+        <PaycoPayment iframeBox={iframeBox} iframe={iframe} />
       </div>
+
+      <div ref={iframeBox} id="iframeBox"></div>
     </>
   );
 }
