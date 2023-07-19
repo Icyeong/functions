@@ -24,7 +24,7 @@ export default function RootLayout({
           <div className="flex">
             <Sidebar />
             <div className="w-full flex flex-col">
-              <Header />
+              {/* <Header /> */}
               <main className="p-4">{children}</main>
             </div>
           </div>
