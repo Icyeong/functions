@@ -5,3 +5,12 @@ type IframeType = {
   iframe: React.MutableRefObject<HTMLIFrameElement | null>;
   url?: string;
 };
+
+type SignupData = {
+  memberName: string;
+  email: string;
+  password: string;
+  memberId: string;
+  regType: string;
+  provider: string;
+};

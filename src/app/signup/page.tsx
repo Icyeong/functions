@@ -1,6 +1,21 @@
+"use client";
+import { createContext, useState } from "react";
 import Form from "./components/Form";
 
-export default function page() {
+export const SignupContext = createContext<{
+  signupData: SignupData;
+  setSignupData: React.Dispatch<React.SetStateAction<SignupData>>;
+} | null>(null);
+
+export default function Signup() {
+  const [signupData, setSignupData] = useState({
+    email: "",
+    password: "",
+    memberId: "0123",
+    memberName: "",
+    regType: "H",
+    provider: "LOCAL",
+  });
   return (
     <>
       <h1 className="text-xl font-bold">회원가입 요청</h1>
@@ -17,7 +32,9 @@ export default function page() {
         <li> title: string</li>
       </ol>
       <h2 className="text-lg font-bold mt-4">테스트 가능</h2>
-      <Form />
+      <SignupContext.Provider value={{ signupData, setSignupData }}>
+        <Form />
+      </SignupContext.Provider>
     </>
   );
 }

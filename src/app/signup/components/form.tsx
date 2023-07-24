@@ -10,8 +10,25 @@ import Gender from "./Gender";
 import { logIn } from "@/redux/features/auth-slice";
 import { useDispatch } from "react-redux/es/exports";
 import { AppDispatch, useAppSelector } from "@/redux/store";
+import { Dispatch, SetStateAction, useContext } from "react";
+import { SignupContext } from "../page";
 
 export default function Form() {
+  const { signupData, setSignupData } = useContext(SignupContext) as {
+    signupData: SignupData;
+    setSignupData: Dispatch<SetStateAction<SignupData>>;
+  };
+
+  function changeData(e: any) {
+    e.preventDefault();
+    setSignupData(
+      (prevData): SignupData => ({
+        ...prevData,
+        memberName: "yeong",
+      })
+    );
+  }
+
   const dispatch = useDispatch<AppDispatch>();
   const userIdTest = useAppSelector(
     (state) => state.authReducer.value.username
@@ -38,9 +55,22 @@ export default function Form() {
 
   const options = ["test1", "test2", "test3", "test4"];
 
-  function signup(e: any) {
+  async function signup(e: any) {
     e.preventDefault();
-    console.log("signup!!");
+
+    try {
+      const res = await fetch("https://auth-dev.dominos.co.kr/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(signupData),
+      });
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
+    console.log(signupData);
   }
   return (
     <Bs_Form className="bg-stone-200 p-3 max-w-4">
@@ -84,6 +114,38 @@ export default function Form() {
       >
         가입하기
       </Button>
+
+      <ul>
+        <li>유저 이름 : {signupData.memberName}</li>
+        <li>이메일 : {signupData.email}</li>
+        <li>비밀번호 : {signupData.password}</li>
+      </ul>
+      <div className="flex">
+        <button className="btn btn-primary mr-1" onClick={changeData}>
+          유저 이름 변경
+        </button>
+        <button
+          className="btn btn-primary mr-1"
+          onClick={(e) => {
+            e.preventDefault();
+            setSignupData((prevData) => ({
+              ...prevData,
+              email: "test12@yeong.com",
+            }));
+          }}
+        >
+          이메일 변경
+        </button>
+        <button
+          className="btn btn-primary mr-1"
+          onClick={(e) => {
+            e.preventDefault();
+            setSignupData((prevData) => ({ ...prevData, password: "123***" }));
+          }}
+        >
+          비밀번호 변경
+        </button>
+      </div>
     </Bs_Form>
   );
 }
