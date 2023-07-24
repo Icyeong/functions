@@ -17,7 +17,7 @@ export default function Page() {
     if (iframe.current && iframeBox.current?.contains(iframe.current)) {
       iframeBox.current?.removeChild(iframe.current);
     }
-    if (message.resultCode === "0000") {
+    if (message.resultCode === "1111") {
       alert(message.resultMsg);
     } else if (message.resultCode === "1000") {
       alert(message.resultMsg);
