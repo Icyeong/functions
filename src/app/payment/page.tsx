@@ -17,9 +17,14 @@ export default function Page() {
     if (iframe.current && iframeBox.current?.contains(iframe.current)) {
       iframeBox.current?.removeChild(iframe.current);
     }
-    if (message.resultCode === "1111") {
+    if (message.resultCode === "0000") {
+      //Fail
       alert(message.resultMsg);
-    } else if (message.resultCode === "1000") {
+    } else if (message.resultCode === "1111") {
+      //Success
+      alert(message.resultMsg);
+    } else if (message.resultCode === "2222") {
+      //Cancel
       alert(message.resultMsg);
     }
   });
